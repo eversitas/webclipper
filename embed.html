@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Embed</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+    iframe { border: 0; width: 100%; height: 100%; display: block; }
+  </style>
+</head>
+<body>
+  <script>
+    // Loads the YouTube player for ?v=<id>. Because this page lives on a real
+    // web address, YouTube accepts it as the embedding site and plays the
+    // video — which a chrome-extension:// page can't do directly.
+    const params = new URLSearchParams(location.search);
+    const id = (params.get("v") || "").replace(/[^\w-]/g, "");
+    if (id) {
+      const autoplay = params.get("autoplay") === "1" ? "?autoplay=1" : "";
+      const frame = document.createElement("iframe");
+      frame.src = "https://www.youtube.com/embed/" + id + autoplay;
+      frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      frame.allowFullscreen = true;
+      document.body.appendChild(frame);
+    }
+  </script>
+</body>
+</html>
